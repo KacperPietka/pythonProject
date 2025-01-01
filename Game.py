@@ -1,9 +1,8 @@
 import pygame
 from Player import Flappy
 from Screen import Screen
-from Obstacles import UpperRec
 from Obstacles import Rectangle
-from Obstacles import LowerRec
+import Obstacles
 
 
 class Game:
@@ -12,9 +11,6 @@ class Game:
         self.player = Flappy()
         self.screen = Screen(800, 533)
         self.rectangle = Rectangle()
-        self.upperRec = UpperRec()
-        self.lowerRec = LowerRec()
-
     def game_over(self):
         if self.player.position[1] >= self.screen.height - self.player.height or self.player.position[1] <= 0:
             pygame.font.init()
@@ -42,21 +38,23 @@ class Game:
             key = pygame.key.get_pressed()
             self.screen.display.fill((0, 0, 128))
 
-            #self.upperRec.spawn_rec(self.screen.display)
-            self.upperRec.draw_obstacles(self.screen.display)
-            self.lowerRec.draw_obstacles(self.screen.display)
+
+
+
+            self.rectangle.spawn_new_rec(self.screen.display)
+
+            self.player.update_position(key)
+
+            self.rectangle.update_position(self.screen.display)
 
             self.player.update_flappy_image()
             self.player.display_flappy_image(self.screen.display)
 
-            self.player.update_position(key)
-
             self.player.falling()
 
-            self.upperRec.update_position()
-            self.lowerRec.update_position()
-
             self.game_over()
+
+
 
             pygame.display.update()
 
