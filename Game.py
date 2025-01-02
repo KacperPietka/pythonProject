@@ -11,22 +11,38 @@ class Game:
         self.player = Flappy()
         self.screen = Screen(800, 533)
         self.rectangle = Rectangle()
+        self.points = 0
     def game_over(self):
-        if self.player.position[1] >= self.screen.height - self.player.height or self.player.position[1] <= 0:
-            pygame.font.init()
-            self.screen.display.fill((0, 0, 0))
-            font = pygame.font.Font('arial.ttf', 64)
-            text = font.render('YOU LOST!', True, (255, 255, 255))
-            text_rect = text.get_rect(center=(self.screen.width // 2, self.screen.height // 2))
-            self.screen.display.blit(text, text_rect)
-            pygame.display.update()
-            #key = pygame.key.get_pressed()
-            #ADD WHILE LOOP FOR A CLICKED 'PLAY AGAIN' BUTTON
-            pygame.time.wait(2000)
-            pygame.quit()
-            exit()
+        pygame.font.init()
+        self.screen.display.fill((0, 0, 0))
+        font = pygame.font.Font('arial.ttf', 64)
+        text = font.render('YOU LOST!', True, (255, 255, 255))
+        text_rect = text.get_rect(center=(self.screen.width // 2, self.screen.height // 2))
+        self.screen.display.blit(text, text_rect)
+        pygame.display.update()
+        #key = pygame.key.get_pressed()
+        #ADD WHILE LOOP FOR A CLICKED 'PLAY AGAIN' BUTTON
+        pygame.time.wait(2000)
+        pygame.quit()
+        exit()
 
 
+    def points_adder(self):
+        for rect in Rectangle.rectangles:
+            if self.player.position[0] == rect.position[0] + rect.size[0] and rect.color == (0,123,0):
+                self.points += 1
+
+    def collision(self):
+        for rect in Rectangle.rectangles:
+            if rect.color == (0, 0, 128) and (self.player.position[1] + self.player.height >= rect.position[1] + rect.size[1] or self.player.position[1] <= rect.position[1]) and (rect.position[0] <= self.player.position[0] <= (rect.position[0] + rect.size[0])):
+                self.game_over()
+    def display_points(self):
+        pygame.font.init()
+        font = pygame.font.Font('arial.ttf', 50)
+        text = font.render(f"{self.points}", True, (255, 255, 255))
+        text_rect = text.get_rect(center=(20, 30))
+        self.screen.display.blit(text, text_rect)
+        pygame.display.update()
     def game_loop(self):
         run = True
         clock = pygame.time.Clock()
@@ -40,7 +56,6 @@ class Game:
 
 
 
-
             self.rectangle.spawn_new_rec(self.screen.display)
 
             self.player.update_position(key)
@@ -50,9 +65,13 @@ class Game:
             self.player.update_flappy_image()
             self.player.display_flappy_image(self.screen.display)
 
-            self.player.falling()
+            self.collision()
 
-            self.game_over()
+            self.player.falling()
+            self.points_adder()
+            self.display_points()
+            if self.player.position[1] >= self.screen.height - self.player.height or self.player.position[1] <= 0:
+                self.game_over()
 
 
 

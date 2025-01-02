@@ -1,4 +1,5 @@
 import pygame
+
 class Flappy:
     def __init__(self):
         self.image1 = pygame.image.load('flappy.png')
@@ -9,12 +10,16 @@ class Flappy:
         self.width = 50
         self.image_index = 0
         self.last_image_switch_time = 0
+        self.speed = 0.05
+        self.fall = 2
     def update_position(self, key):
         if key[pygame.K_SPACE]:
             self.position[1] -= 10
+            self.fall = 2
 
     def falling(self):
-        self.position[1] += 3
+        self.position[1] += self.fall
+        self.fall += self.speed
     def update_flappy_image(self):
         current_time = pygame.time.get_ticks()
         if current_time - self.last_image_switch_time >= 300:
