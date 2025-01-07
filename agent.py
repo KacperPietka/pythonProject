@@ -13,8 +13,6 @@ LEARNING_RATE = 0.001
 
 
 def plot(scores, mean_scores):
-    display.clear_output(wait=True)
-    display.display(plt.gcf)
     plt.clf()
     plt.title("TRAINING PLOT")
     plt.xlabel("NUMBER OF GAMES")
@@ -22,13 +20,14 @@ def plot(scores, mean_scores):
     plt.plot(scores)
     plt.plot(mean_scores)
     plt.ylim(ymin=0)
-    plt.show(block=False)
+    plt.ion()
+    plt.show()
     plt.pause(.1)
 
 
 class Agent:
     def __init__(self):
-        self.model = Linear_QNet(11, 256, 2)
+        self.model = Linear_QNet(11, 512, 2)
         self.n_games = 0
         self.epsilon = 0
         self.gamma = 0.90  # discount rate
@@ -84,7 +83,7 @@ class Agent:
         self.trainer.train_step(state, action, reward, next_state, done)
 
     def get_action(self, state):
-        self.epsilon = 100 - self.n_games
+        self.epsilon = 80 - self.n_games
         final_move = [0, 0]
 
         if random.randint(0, 200) < self.epsilon:
@@ -131,7 +130,6 @@ def train():
             mean_score = total_score / agent.n_games
             plot_mean_scores.append(mean_score)
             #plot(plot_scores, plot_mean_scores)
-
 
 
 if __name__ == '__main__':

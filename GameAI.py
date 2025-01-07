@@ -8,6 +8,7 @@ class Game:
     pygame.init()
     def __init__(self):
         self.run = True
+        self.previous_distance = None
         self.player = Flappy()
         self.screen = Screen(800, 600)
         self.rectangle = Rectangle()
@@ -30,6 +31,15 @@ class Game:
             if self.player.position[0] == rect.position[0] + rect.size[0] and rect.color == (0,123,0):
                 self.points += 1
                 self.reward = 10
+
+    def calculate_distance_to_hole(self):
+        player_x, player_y = self.player.position
+        for rect in Rectangle.rectangles:
+            if rect.color == (0, 0, 128):
+                hole_x, hole_y = rect.position
+                distance = abs(player_x - hole_x)
+                return distance
+        return None
 
     def collision(self):
         for rect in Rectangle.rectangles:
@@ -58,6 +68,15 @@ class Game:
         self.player.falling()
         self.points_adder()
         self.display_points()
+
+        current_distance = self.calculate_distance_to_hole()
+        if current_distance is not None:
+            if self.previous_distance is not None:
+                if current_distance < self.previous_distance:
+                    self.reward += 1
+                elif current_distance > self.previous_distance:
+                    self.reward -= 0.5
+            self.previous_distance = current_distance
 
         # Check if player hits boundaries
         if self.player.position[1] >= self.screen.height - self.player.height or self.player.position[1] <= 0:
