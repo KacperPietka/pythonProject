@@ -58,6 +58,7 @@ class Game:
         clock = pygame.time.Clock()
         self.dead = False
         self.reward = 0
+
         self.screen.display.fill(self.background)
         self.rectangle.spawn_new_rec(self.screen.display)
         self.player.update_position(move)
@@ -70,6 +71,7 @@ class Game:
         self.display_points()
 
         current_distance = self.calculate_distance_to_hole()
+
         if current_distance is not None:
             if self.previous_distance is not None:
                 if current_distance < self.previous_distance:
@@ -78,15 +80,12 @@ class Game:
                     self.reward -= 0.5
             self.previous_distance = current_distance
 
-        # Check if player hits boundaries
         if self.player.position[1] >= self.screen.height - self.player.height or self.player.position[1] <= 0:
             self.dead = True
             self.reward = -10
 
-        # Update Pygame display
         pygame.display.update()
 
-        # Process events (e.g., quit)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()

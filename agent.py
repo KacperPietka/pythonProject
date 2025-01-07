@@ -27,7 +27,7 @@ def plot(scores, mean_scores):
 
 class Agent:
     def __init__(self):
-        self.model = Linear_QNet(11, 512, 2)
+        self.model = Linear_QNet(9, 512, 2)
         self.n_games = 0
         self.epsilon = 0
         self.gamma = 0.90  # discount rate
@@ -44,22 +44,17 @@ class Agent:
         else:
             obstacle_x, obstacle_y, obstacle_width, obstacle_height = 800, 0, 0, 0
 
-        # Compute distances
-        distance_x = obstacle_x - player_x
         distance_y_top = player_y - obstacle_y
         distance_y_bottom = (obstacle_y + obstacle_height) - (player_y + game.player.height)
 
-        # Game-specific states
         state = [
             player_y < obstacle_y,  # Is player above top of obstacle
             player_y > obstacle_y + obstacle_height,  # Is player below bottom of obstacle
-            player_velocity < 0,  # Is player moving upwards
-            player_velocity > 0,  # Is player falling
-            distance_x,  # Horizontal distance to the obstacle
+            player_velocity < 0,
+            player_velocity > 0,
             distance_y_top,  # Distance from the player to the top of the obstacle
             distance_y_bottom,  # Distance from the player to the bottom of the obstacle
-            game.player.position[1],  # Player's vertical position
-            len(game.rectangle.rectangles),  # Number of obstacles on screen
+            len(game.rectangle.rectangles),
             game.dead,  # Is the player dead
             game.points,  # Current points
         ]
