@@ -2,9 +2,9 @@ import pygame
 
 class Flappy:
     def __init__(self):
-        self.image1 = pygame.image.load('flappy.png')
-        self.image2 = pygame.image.load('flappy2.png')
-        self.image3 = pygame.image.load('flappy3.png')
+        self.image1 = pygame.image.load('Images/flappy.png')
+        self.image2 = pygame.image.load('Images/flappy2.png')
+        self.image3 = pygame.image.load('Images/flappy3.png')
         self.position = [10, 200]
         self.height = 37
         self.width = 50
