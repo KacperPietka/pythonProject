@@ -7,6 +7,7 @@ class Rectangle:
     rectangles = []
     speed = 2
     factor = 0.02
+    flappy_went_through = False
     def __init__(self):
         self.position = [750, 0]
         self.size = [60, 800]
@@ -34,3 +35,6 @@ class Rectangle:
         for rect in Rectangle.rectangles:
             rect.position[0] -= self.speed + self.factor
             pygame.draw.rect(screen, rect.color, pygame.Rect(rect.position[0], rect.position[1], rect.size[0], rect.size[1]))
+            if rect.position[0] <= rect.size[0]*(-1) and len(Rectangle.rectangles) > 0:
+                Rectangle.rectangles = Rectangle.rectangles[1:]
+                Rectangle.flappy_went_through = True

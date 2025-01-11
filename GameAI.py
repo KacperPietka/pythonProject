@@ -14,6 +14,7 @@ class Game:
         self.screen = Screen(800, 600)
         self.rectangle = Rectangle()
         self.points = 0
+        self.point_added = False
         self.dead = False
         self.reward = 0
         self.background = (0,0,128)
@@ -31,11 +32,11 @@ class Game:
 
     def points_adder(self):
         for rect in Rectangle.rectangles:
-            if self.player.position[0] >= rect.position[0] + rect.size[0]:
+            if self.player.position[0] >= rect.position[0] + rect.size[0] and Rectangle.flappy_went_through == True:
                 self.points += 1
                 Rectangle.factor += 0.02
                 self.reward = 10
-                Rectangle.rectangles = Rectangle.rectangles[2:]  # remove rectangle and hole
+                Rectangle.flappy_went_through = False
 
     def calculate_distance_to_hole(self):
         player_x, player_y = self.player.position

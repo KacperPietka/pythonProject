@@ -29,10 +29,10 @@ class Game:
 
     def points_adder(self):
         for rect in Rectangle.rectangles:
-            if self.player.position[0] >= rect.position[0] + rect.size[0] and rect.color == (0,0,128):
+            if self.player.position[0] <= rect.position[0] + rect.size[0] and Rectangle.flappy_went_through == True:
                 Rectangle.factor += 0.02
-                Rectangle.rectangles = Rectangle.rectangles[2:]
                 self.points += 1
+                Rectangle.flappy_went_through = False
 
     def collision(self):
         for rect in Rectangle.rectangles:
