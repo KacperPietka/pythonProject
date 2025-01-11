@@ -32,7 +32,7 @@ class Game:
 
     def points_adder(self):
         for rect in Rectangle.rectangles:
-            if self.player.position[0] >= rect.position[0] + rect.size[0] and Rectangle.flappy_went_through == True:
+            if self.player.position[0] <= rect.position[0] + rect.size[0] and Rectangle.flappy_went_through == True:
                 self.points += 1
                 Rectangle.factor += 0.02
                 self.reward = 10
