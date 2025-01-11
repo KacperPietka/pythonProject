@@ -5,7 +5,6 @@ from model import Linear_QNet, QTrainer
 from collections import deque
 from GameAI import Game
 from matplotlib import pyplot as plt
-from IPython import display
 
 MAX_MEMORY = 100_000
 BATCH_SIZE = 1000

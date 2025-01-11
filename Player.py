@@ -12,15 +12,16 @@ class Flappy:
         self.last_image_switch_time = 0
         self.speed = 0.05
         self.fall = 2
+
     def update_position(self, jump):
-        if jump[1]:
+        if jump == [0, 1]:
             self.position[1] -= 10
             self.fall = 2
 
-    """def update_position(self, jump):
+    def update_position_human_game(self, jump):
         if jump[pygame.K_SPACE]:
             self.position[1] -= 10
-            self.fall = 2"""
+            self.fall = 2
 
     def falling(self):
         self.position[1] += self.fall

@@ -27,10 +27,11 @@ class Game:
         pygame.time.wait(2000)
         exit()
 
-
     def points_adder(self):
         for rect in Rectangle.rectangles:
-            if self.player.position[0] == rect.position[0] + rect.size[0] and rect.color == (0,123,0):
+            if self.player.position[0] >= rect.position[0] + rect.size[0] and rect.color == (0,0,128):
+                Rectangle.factor += 0.02
+                Rectangle.rectangles = Rectangle.rectangles[2:]
                 self.points += 1
 
     def collision(self):
@@ -41,7 +42,7 @@ class Game:
         pygame.font.init()
         font = pygame.font.Font('arial.ttf', 50)
         text = font.render(f"{self.points}", True, (255, 255, 255))
-        text_rect = text.get_rect(center=(20, 30))
+        text_rect = text.get_rect(center=(self.screen.width - 30, 40))
         self.screen.display.blit(text, text_rect)
         pygame.display.update()
     def game_loop(self):
@@ -58,7 +59,7 @@ class Game:
 
             self.rectangle.spawn_new_rec(self.screen.display)
 
-            self.player.update_position(key)
+            self.player.update_position_human_game(key)
 
             self.rectangle.update_position(self.screen.display)
 
