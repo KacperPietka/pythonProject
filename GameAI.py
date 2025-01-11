@@ -34,10 +34,11 @@ class Game:
 
     def calculate_distance_to_hole(self):
         player_x, player_y = self.player.position
+        player_y += self.player.height / 2  # MIDDLE
         for rect in Rectangle.rectangles:
             if rect.color == (0, 0, 128):
                 hole_x, hole_y = rect.position
-                distance = abs(player_x - hole_x)
+                distance = abs(player_y - hole_y)
                 return distance
         return None
 
