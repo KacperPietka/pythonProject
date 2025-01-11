@@ -12,7 +12,7 @@ class Rectangle:
 
     def spawn_new_rec(self, screen):
         current_time = pygame.time.get_ticks()
-        if current_time - self.last_image_switch_time >= 1500 or len(self.rectangles) == 0:
+        if current_time - self.last_image_switch_time >= 3000 or len(self.rectangles) == 0:
             new_object = Rectangle()
             hole = Rectangle()
             hole.position[1] = random.randint(20, 400)
@@ -30,7 +30,7 @@ class Rectangle:
             Rectangle.rectangles.append(hole)
     def update_position(self, screen):
         for rect in Rectangle.rectangles:
-            rect.position[0] -= 4
+            rect.position[0] -= 2
             pygame.draw.rect(screen, rect.color, pygame.Rect(rect.position[0], rect.position[1], rect.size[0], rect.size[1]))
             if rect.position[0] <= rect.size[0]*(-1):
                 Rectangle.rectangles = Rectangle.rectangles[1:]

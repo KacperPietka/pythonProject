@@ -2,6 +2,7 @@ import pygame
 from Player import Flappy
 from Screen import Screen
 from Obstacles import Rectangle
+import math
 
 
 class Game:
@@ -38,7 +39,10 @@ class Game:
         for rect in Rectangle.rectangles:
             if rect.color == (0, 0, 128):
                 hole_x, hole_y = rect.position
-                distance = abs(player_y - hole_y)
+                hole_y += rect.size[1] / 2
+                distance_y = abs(hole_y - player_y)
+                distance_x = abs(hole_x - player_x)
+                distance = math.sqrt(distance_x**2 + distance_y**2)
                 return distance
         return None
 
@@ -51,7 +55,7 @@ class Game:
         pygame.font.init()
         font = pygame.font.Font('arial.ttf', 50)
         text = font.render(f"{self.points}", True, (255, 255, 255))
-        text_rect = text.get_rect(center=(20, 30))
+        text_rect = text.get_rect(center=(20, 50))
         self.screen.display.blit(text, text_rect)
         pygame.display.update()
 
